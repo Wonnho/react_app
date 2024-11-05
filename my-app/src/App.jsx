@@ -1,6 +1,12 @@
 import React from "react";
-function App() {
-  return <div>App</div>;
+import Welcome from "./welcome";
+export default function App() {
+  return (
+    <>
+      <Welcome name={"Teacher"}></Welcome>
+      <Welcome name={"Student"}></Welcome>
+      <Welcome name={"Manager"}></Welcome>
+      <Welcome name={"Student Rep."}></Welcome>
+    </>
+  );
 }
-
-export default App;
