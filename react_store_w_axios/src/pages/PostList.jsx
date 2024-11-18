@@ -1,22 +1,47 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-
+import axios from "axios";
+// import postApi from "../api/postsApi";
+import postApi from "../api/postApi";
 export default function PostList() {
   const navigate = useNavigate();
-
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function fetchPost() {
-      const url = "http://localhost:3000/posts";
-      const response = await axios.get(url);
-      const data = response.data;
-      setPosts(data);
+    // const posts = useSelector((state) => state.posts);
+    async function fetchPosts() {
+      try {
+        // const url = "http://localhost:3000/posts";
+        // const response = await axios.get(url);
+        // // const response = await axios({ url: url });
+
+        // const data = response.data;
+        const data = await postApi.getPosts()
+
+        setPosts(data);
+      } catch (err) {
+        setError(err.message);
+
+        console.error(err);
+        console.log("에러남 ㅠㅠ");
+      } finally {
+        setLoading(false);
+      }
     }
-    fetchPost();
-  });
+
+    fetchPosts();
+  }, []);
+
+  if (loading) {
+    return <div>로딩중</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div>

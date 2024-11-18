@@ -1,29 +1,37 @@
-// import { isNull } from "lodash";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+// import postApi from "../api/postsApi";
+import postApi from "../api/postApi";
 export default function PostDetail() {
+  const navigate = useNavigate();
+
   const { postId } = useParams();
-
-  const posts = useSelector((state) => state.posts);
-
   const [post, setPost] = useState();
+  const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   setPost(posts.find((post) => post.id === parseInt(postId)));
-  // }, []);
 
   useEffect(() => {
-    const url = `http://localhost:3000/posts/${postId}`;
+    // const url = `http://localhost:3000/posts/${postId}`;
     async function fetchPost() {
-      const response = await axios.get(url);
-      const data = response.data;
-      setPost(data)
+      try {
+        // const response = await axios.get(url);
+        // const data = response.data;
+        const data = await postApi.getPostById(postId)
+        setPost(data);
+      } catch (err) {
+        // navigate("/posts");
+        // TODO: 나중에 고칠 것
+        navigate("/not-found", { replace: true });
+      } finally {
+        setLoading(false);
+      }
     }
     fetchPost();
   }, []);
+
+  if (loading) return <div>로딩중...</div>;
 
   return (
     <div>

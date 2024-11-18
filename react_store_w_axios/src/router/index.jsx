@@ -6,11 +6,12 @@ import RootLayout from "../RootLayout";
 import PostDetail from "../pages/PostDetail";
 import NotFound from "../pages/NotFound";
 import PostCreate from "../pages/PostCreate";
+  
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
-    // errorElement: <NotFound />,
+    errorElement: <NotFound />,
     children: [
       {
         index: true,
@@ -21,8 +22,8 @@ const router = createBrowserRouter([
         element: <PostList />,
       },
       {
-        path: "/posts/create",
-        element: <PostCreate />,
+        path:"/posts/create",
+        element:<PostCreate/>
       },
       {
         path: "/posts/:postId",

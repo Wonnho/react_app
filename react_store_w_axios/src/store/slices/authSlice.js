@@ -1,12 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { useState } from "react";
 
 const initialState = {
   isLoggedIn: false,
-  // isAdmin: false,
-  // user : {
-  //   name : 'anonimoususer'
+  // isAdmin:false,
+  // user:{
+  //   name:'anonymoususer'
   // }
 };
+
+// const [value, setValue] = useState("기본값");
 
 const authSlice = createSlice({
   name: "auth",

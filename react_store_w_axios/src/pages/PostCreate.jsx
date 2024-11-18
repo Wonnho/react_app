@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addPost } from "../store/slices/postsSlice";
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
+import postApi from "../api/postApi";
 
 export default function PostCreate() {
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -14,6 +15,7 @@ export default function PostCreate() {
   useEffect(() => {
     if (!isLoggedIn) {
       navigate("/");
+      // 로그인 페이지로 이동 시키면 더 좋을 듯
     }
   }, [isLoggedIn]);
 
@@ -31,23 +33,19 @@ export default function PostCreate() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    const id = Date.now(); // 임시 id
-
-    // dispatch(addPost({ ...formData, id }));
-    // navigate(`/posts/${id}`);
-    // // navigate(`/posts`)
-    // }
-
     async function createPost() {
-      const url = "http://localhost:3000/posts";
-      const response = await axios.post(url, formData);
-      const data = response.data;
+      // const url = "http://localhost:3000/posts";
+      // const response = await axios.post(url, formData);
+      const data = await postApi.createPost(formData);
+      setFormData({ title: "", content: "" });
+
+      // const data = response.data;
+      
       const id = data.id;
       navigate(`/posts/${id}`);
     }
     createPost();
   }
-
   return (
     <>
       <h3>PostCreate</h3>
